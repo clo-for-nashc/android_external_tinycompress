@@ -34,6 +34,10 @@ soong_config_module_type {
 
 tinycompress_cc_defaults {
     name: "libtinycompress-defaults",
+    header_libs: ["device_kernel_headers"] + select(soong_config_variable("tinycompress", "use_qti_headers"), {
+        false: [],
+        default: ["qti_kernel_headers"],
+    }),
     soong_config_variables: {
         enable_extended_compress_format: {
             cflags: ["-DENABLE_EXTENDED_COMPRESS_FORMAT"],
@@ -69,7 +73,6 @@ cc_library_shared {
         "libcutils",
         "libutils",
     ],
-    header_libs: ["device_kernel_headers"]+["qti_kernel_headers"],
 }
 
 cc_library_shared {
@@ -96,7 +99,6 @@ cc_library_shared {
         "libcutils",
         "libutils",
     ],
-    header_libs: ["device_kernel_headers"]+["qti_kernel_headers"],
 }
 
 cc_binary {
